@@ -1,3 +1,9 @@
+Menggunakan MySQL yang dijalankan dengan server XAMPP dari perangkat sendiri
+1. Impor sinau.sql ke MySQL
+2. Buat file .env dengan menyalin semua konten dari .env.example
+3. Masukkan dan jalankan php artisan key:generate dalam terminal 
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
