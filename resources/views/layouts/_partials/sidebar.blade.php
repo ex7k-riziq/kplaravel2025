@@ -30,12 +30,20 @@
           <li class="nav-item">
             <div class="d-flex sidebar-profile">
               <div class="sidebar-profile-image">
-                <img src="{{ url('assets/images/sloppy1.webp') }}" alt="image">
+                @guest
+                <img src="{{ url('assets/images/guest.jpg') }}" alt="image">
+                @else
+                <img src="{{ asset('assets/images/' . Auth::user()->image) }}" alt="image">
                 <span class="sidebar-status-indicator"></span>
+                @endguest
               </div>
               <div class="sidebar-profile-name">
                 <p class="sidebar-name">
-                  SloppyXIV
+                  @guest
+                  Guest
+                  @else
+                  {{ Auth::user()->name }}
+                  @endguest
                 </p>
                 <p class="sidebar-designation">
                   Welcome
@@ -72,33 +80,4 @@
               <span class="menu-title">User</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <i class="typcn typcn-briefcase menu-icon"></i>
-              <span class="menu-title">UI Elements</span>
-              <i class="typcn typcn-chevron-right menu-arrow"></i>
-            </a>
-            <div class="collapse" id="ui-basic">
-              <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Buttons</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Dropdowns</a></li>
-                <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Typography</a></li>
-              </ul>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="typcn typcn-document-text menu-icon"></i>
-              <span class="menu-title">Documentation</span>
-            </a>
-          </li>
-        </ul>
-        <ul class="sidebar-legend">
-          <li>
-            <p class="sidebar-menu-title">Category</p>
-          </li>
-          <li class="nav-item"><a href="#" class="nav-link">#Sales</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">#Marketing</a></li>
-          <li class="nav-item"><a href="#" class="nav-link">#Growth</a></li>
-        </ul>
-      </nav>
+        </nav>
