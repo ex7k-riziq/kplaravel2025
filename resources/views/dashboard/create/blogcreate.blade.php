@@ -9,6 +9,24 @@
     <link rel="stylesheet" href="{{ url('assets/css/vendor.bundle.base.css') }}">
     <link rel="stylesheet" href="{{ url('assets/css/style.css') }}">
     <link rel="shortcut icon" href="images/favicon.png" />
+    <script src="https://cdn.tiny.cloud/1/2z7af7uf3230kkzbeprwgj1glhfdy7lxwghi9kb5kw3g4s0k/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+
+  <script>
+    tinymce.init({
+      selector: '#description',
+      plugins: [
+        'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+      ],
+      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+      tinycomments_mode: 'embedded',
+      tinycomments_author: 'Author name',
+      mergetags_list: [
+        { value: 'First.Name', title: 'First Name' },
+        { value: 'Email', title: 'Email' },
+      ],
+      ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+    });
+  </script>
   </head>
   <body>
     
@@ -39,13 +57,33 @@
                         </div>
 
                         <div class="form-group">
-                          <label for="category">Category</label>
-                          <input type="text" class="form-control" id="category" name="category" placeholder="Category">
+                          <label for="description">Description</label>
+                          <textarea type="text" class="form-control" id="description" name="description" placeholder="Blog Description"></textarea>
                         </div>
 
                         <div class="form-group">
-                          <label for="creator">Creator</label>
-                          <input type="text" class="form-control" id="creator" name="creator" placeholder="Creator">
+                          <label for="category_id">Category</label>
+                          <select class="form-control" id="category_id" name="category_id">
+                            <option value="">Category</option>
+                              @foreach($category as $cat)
+                                <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
+                              @endforeach
+                          </select>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="creator_id">Creator</label>
+                          <select class="form-control" id="creator_id" name="creator_id">
+                            <option value="">Creator</option>
+                              @foreach($user as $users)
+                                <option value="{{ $users->id }}" {{ old('creator_id') == $users->id ? 'selected' : '' }}>{{ $users->name }}</option>
+                              @endforeach
+                          </select>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="image">Blog Image</label>
+                          <input type="file" class="form-control" accept="image/*" id="image" name="image">
                         </div>
                         
                         <button type="submit" class="btn btn-primary mr-2">Submit</button>

@@ -14,18 +14,15 @@ return new class extends Migration
         Schema::create('blog', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('category');
-            $table->string('creator');
-            $table->timestamps();
-        });
+            $table->string('slug')->unique();
+            $table->string('description')->nullable();
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('creator_id');
 
-        Schema::create('appuser', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->string('image');
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -35,6 +32,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('blog');
-        Schema::dropIfExists('appuser');
     }
 };

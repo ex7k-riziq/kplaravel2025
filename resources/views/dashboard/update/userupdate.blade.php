@@ -31,17 +31,17 @@
                 </div>
               @endif
 
-              <form class="forms-sample" method="POST" action="{{ route('dashboard.userupdate', $member->id) }}" enctype="multipart/form-data">
+              <form class="forms-sample" method="POST" action="{{ route('dashboard.userupdate', ['user' => $user->id]) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
                   <label for="name">Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Username" value="{{ old('name', $member->name) }}">
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Username" value="{{ old('name', $user->name) }}">
                 </div>
 
                 <div class="form-group">
                   <label for="email">Email address</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ old('email', $member->email) }}">
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ old('email', $user->email) }}">
                 </div>
 
                 <div class="form-group">
@@ -57,8 +57,8 @@
                 <div class="form-group">
                   <label for="image">User Pic</label>
                   <input type="file" class="form-control" accept="image/*" id="image" name="image">
-                  @if ($member->image && file_exists(public_path('assets/images/' . $member->image)))
-                    <img src="{{ asset('assets/images/' . $member->image) }}" alt="User Image" style="max-height: 100px;">
+                  @if ($user->image && file_exists(public_path('assets/images/' . $user->image)))
+                    <img src="{{ asset('assets/images/' . $user->image) }}" alt="User Image" style="max-height: 100px;">
                   @endif
                 </div>
 

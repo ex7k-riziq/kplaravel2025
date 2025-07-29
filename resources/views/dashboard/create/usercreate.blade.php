@@ -58,7 +58,7 @@
                   <label for="image">User Pic</label>
                   <input type="file" class="form-control" accept="image/*" id="image" name="image">
                 </div>
-
+                
                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
                         <a href="{{ route('dashboard.user') }}" class="btn btn-light">Cancel</a>
                     </form>

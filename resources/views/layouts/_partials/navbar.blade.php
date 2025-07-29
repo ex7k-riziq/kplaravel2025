@@ -26,8 +26,8 @@
           </ul>
           <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item d-none d-lg-flex  mr-2">
-              <a class="nav-link" href="#">
-                Help
+              <a class="nav-link" href="{{ route('welcome') }}">
+                Home
               </a>
             </li>
             <li class="nav-item dropdown d-flex">
@@ -123,22 +123,40 @@
                 </a>
               </div>
             </li>
-            <li class="nav-item nav-profile dropdown">
-              <a class="nav-link dropdown-toggle  pl-0 pr-0" href="#" data-toggle="dropdown" id="profileDropdown">
-                <i class="typcn typcn-user-outline mr-0"></i>
-                <span class="nav-profile-name">Evan Morales</span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                <a class="dropdown-item">
-                <i class="typcn typcn-cog text-primary"></i>
-                Settings
-                </a>
-                <a class="dropdown-item">
-                <i class="typcn typcn-power text-primary"></i>
-                Logout
-                </a>
-              </div>
-            </li>
+              @guest
+                @if (Route::has('login'))
+                  <li class="nav-item nav-profile">
+                    <a class="nav-link" href="{{ route('login') }}"><span class="nav-profile-name">{{ __('Login') }}</span></a>
+                  </li>
+                @endif
+                @if (Route::has('register'))
+                  <li class="nav-item nav-profile">
+                    <a class="nav-link" href="{{ route('register') }}"><span class="nav-profile-name">{{ __('Register') }}</span></a>
+                  </li>
+                @endif
+                @else
+                  <li class="nav-item nav-profile dropdown">
+                    <a id="profileDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" v-pre>
+                      {{ Auth::user()->name }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="navbarDropdown">
+                      <a href="{{ route('dashboard.category') }}" class="dropdown-item" style="cursor: pointer;">
+                        <i class=" typcn typcn-th-menu-outline text-primary"></i>
+                        Manage Categories
+                      </a>
+                      <a href="#" class="dropdown-item" id="logout-notif" style="cursor: pointer;">
+                          <i class="typcn typcn-power text-primary"></i>
+                          {{ __('Logout') }}
+                      </a>
+
+                      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                          @csrf
+                      </form>
+                  </div>
+
+                  </div>
+                </li>
+              @endguest
           </ul>
           <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
             <span class="typcn typcn-th-menu"></span>

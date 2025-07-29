@@ -9,6 +9,24 @@
     <link rel="stylesheet" href="{{ url('assets/css/vendor.bundle.base.css') }}">
     <link rel="stylesheet" href="{{ url('assets/css/style.css') }}">
     <link rel="shortcut icon" href="images/favicon.png" />
+    <script src="https://cdn.tiny.cloud/1/2z7af7uf3230kkzbeprwgj1glhfdy7lxwghi9kb5kw3g4s0k/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+
+    <script>
+      tinymce.init({
+        selector: '#description',
+        plugins: [
+          'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+        ],
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+        mergetags_list: [
+          { value: 'First.Name', title: 'First Name' },
+          { value: 'Email', title: 'Email' },
+        ],
+        ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+      });
+    </script>
   </head>
   <body>
     
@@ -31,22 +49,45 @@
                       </div>
                     @endif
 
-                    <form class="forms-sample" method="POST" action="{{ route('dashboard.blogupdate', $member->id) }}" enctype="multipart/form-data">
+                    <form class="forms-sample" method="POST" action="{{ route('dashboard.blogupdate', $blog) }}" enctype="multipart/form-data">
                       @csrf
                       @method('PUT')
                         <div class="form-group">
                           <label for="title">Title</label>
-                          <input type="text" class="form-control" id="title" name="title" placeholder="Blog title" value="{{ old('title', $member->title) }}">
+                          <input type="text" class="form-control" id="title" name="title" placeholder="Blog title" value="{{ old('title', $blog->title) }}">
                         </div>
 
                         <div class="form-group">
-                          <label for="category">Category</label>
-                          <input type="text" class="form-control" id="category" name="category" placeholder="Category" value="{{ old('category', $member->category) }}">
+                          <label for="description">Description</label>
+                          <textarea type="text" class="form-control" id="description" name="description" placeholder="Blog Description">{{ old('description', $blog->description) }}</textarea>
                         </div>
 
                         <div class="form-group">
-                          <label for="creator">Creator</label>
-                          <input type="text" class="form-control" id="creator" name="creator" placeholder="Creator" value="{{ old('creator', $member->creator) }}">
+                          <label for="category_id">Category</label>
+                          <select class="form-control" id="category_id" name="category_id">
+                            <option value="">Category</option>
+                              @foreach($category as $cat)
+                                <option value="{{ $cat->id }}" {{ old('category_id', $blog->category_id) == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
+                              @endforeach
+                          </select>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="creator_id">Creator</label>
+                          <select class="form-control" id="creator_id" name="creator_id"_id>
+                            <option value="">Creator</option>
+                              @foreach($user as $users)
+                                <option value="{{ $users->id }}" {{ old('creator_id', $blog->creator_id) == $users->id ? 'selected' : '' }}>{{ $users->name }}</option>
+                              @endforeach
+                          </select>
+                        </div>
+
+                        <div class="form-group">
+                          <label for="image">User Pic</label>
+                          <input type="file" class="form-control" accept="image/*" id="image" name="image">
+                          @if ($blog->image && file_exists(public_path('assets/images/' . $blog->image)))
+                            <img src="{{ asset('assets/images/' . $blog->image) }}" alt="Blog Image" style="max-height: 100px;">
+                          @endif
                         </div>
                         
                         <button type="submit" class="btn btn-primary mr-2">Submit</button>
