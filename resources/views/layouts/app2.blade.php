@@ -9,9 +9,11 @@
     <link rel="stylesheet" href="{{ url('assets/css/vendor.bundle.base.css') }}">
     <link rel="stylesheet" href="{{ url('assets/css/style.css') }}">
     <link rel="shortcut icon" href="images/favicon.png" />
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
   </head>
   <body>
-
+  @stack('scripts')
     <div class="container-scroller">
       @include ('layouts._partials.navbar')
       <div class="container-fluid page-body-wrapper">
@@ -55,5 +57,9 @@
     <script src="{{ url('assets/js//progressbar.min.js') }}"></script>
     <script src="{{ url('assets/js/Chart.min.js') }}"></script>
     <script src="{{ url('assets/js/dashboard.js') }}"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    @stack('scripts')
     </body>
  </html>

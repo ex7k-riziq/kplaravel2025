@@ -22,35 +22,22 @@
                 <div class="card-body">
                   </p>
                   <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table id="blog-table" class="table table-striped">
                       <thead>
                         <tr>
-                          <th>
-                            Title
-                          </th>
-                          <th>
-                            Slug
-                          </th>
-                          <th>
-                            Description
-                          </th>
-                          <th>
-                            Category
-                          </th>
-                          <th>
-                            Creator
-                          </th>
-                          <th>
-                            Created at
-                          </th>
+                          <th>Image</th>
+                          <th>Title</th>
+                          <th>Slug</th>
+                          <th>Description</th>
+                          <th>Category</th>
+                          <th>Creator</th>
+                          <th>Created at</th>
                           @guest
                           @else
-                          <th>
-                            Action
-                          </th>
+                          <th class="no-sort">Action</th>
                           @endguest
-                        </tr>
-                      </thead>
+                          </tr>
+                        </thead>
                       <tbody>
                       @foreach ($blog as $member)
                         <tr>
@@ -96,4 +83,27 @@
                 </div>
               </div>
             </div>
+
+            @push('scripts')
+            <script>
+              $(document).ready(function () {
+                $('#blog-table').DataTable({
+                  responsive: true,
+                  pageLength: 10,
+                  columnDefs: [
+                    { targets: 'no-sort', orderable: false }
+                  ],
+                  language: {
+                    search: "Search:",
+                    lengthMenu: "Show _MENU_ entries",
+                    info: "Showing _START_ - _END_ of _TOTAL_ entries",
+                    paginate: {
+                      previous: "Previous",
+                      next: "Next"
+                    }
+                  }
+                });
+              });
+            </script>
+            @endpush
 @endsection

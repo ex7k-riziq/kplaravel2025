@@ -22,7 +22,7 @@
                 <div class="card-body">
                   </p>
                   <div class="table-responsive">
-                    <table class="table table-striped">
+                    <table id="category-table" class="table table-striped">
                       <thead>
                         <tr>
                           <th>
@@ -63,4 +63,27 @@
                 </div>
               </div>
             </div>
+
+            @push('scripts')
+            <script>
+              $(document).ready(function () {
+                $('#category-table').DataTable({
+                  responsive: true,
+                  pageLength: 10,
+                  columnDefs: [
+                    { targets: 'no-sort', orderable: false }
+                  ],
+                  language: {
+                    search: "Search:",
+                    lengthMenu: "Show _MENU_ entries",
+                    info: "Showing _START_ - _END_ of _TOTAL_ entries",
+                    paginate: {
+                      previous: "Previous",
+                      next: "Next"
+                    }
+                  }
+                });
+              });
+            </script>
+            @endpush
 @endsection
