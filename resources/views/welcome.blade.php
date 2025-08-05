@@ -58,6 +58,22 @@
         </div>
     </nav>
 
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-top shadow-sm py-2">
+        <div class="container justify-content-center flex-wrap gap-2">
+            <a href="{{ route('welcome') }}" 
+            class="btn btn-sm {{ request('category_id') ? 'btn-outline-info' : 'btn-info' }}">
+                Semua
+            </a>
+            @foreach($categories as $category)
+                <a href="{{ route('welcome', ['category_id' => $category->id]) }}"
+                class="btn btn-sm {{ request('category_id') == $category->id ? 'btn-info' : 'btn-outline-info' }}">
+                    {{ $category->name }}
+                </a>
+            @endforeach
+        </div>
+    </nav>
+
+
     <section id="articles" class="py-5">
         <div class="container">
             <h2 class="text-center mb-5">Artikel Terbaru</h2>
@@ -70,6 +86,24 @@
                                 <h5 class="card-title">{{ $blogs->title }}</h5>
                                 <p class="card-text">{!! \Illuminate\Support\Str::limit($blogs->description, 100) !!}</p>
                                 <a href="{{ route('blogarticle', $blogs) }}" class="btn btn-primary mt-auto">Read More</a>
+                            </div>
+                            @php
+                                $shareUrl = urlencode(route('blogarticle', $blogs));
+                                $shareText = urlencode($blogs->title);
+                            @endphp
+                            <div class="mt-3 mb-3 text-center">
+                                <small class="d-block text-muted mb-2">Share:</small>
+                                <div class="d-flex justify-content-center gap-3">
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ $shareUrl }}" target="_blank" title="Facebook">
+                                        <i class="fab fa-facebook fa-lg"></i>
+                                    </a>
+                                    <a href="https://twitter.com/intent/tweet?url={{ $shareUrl }}&text={{ $shareText }}" target="_blank" title="Twitter">
+                                        <i class="fab fa-twitter fa-lg"></i>
+                                    </a>
+                                    <a href="https://wa.me/?text={{ $shareText }}%20{{ $shareUrl }}" target="_blank" title="WhatsApp">
+                                        <i class="fab fa-whatsapp fa-lg"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

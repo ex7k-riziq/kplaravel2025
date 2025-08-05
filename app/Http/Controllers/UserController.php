@@ -11,6 +11,7 @@ use App\Models\Blog;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Validation\Rule;
+use Jorenvh\Share\ShareFacade as Share;
 
 class UserController extends Controller
 {
@@ -26,16 +27,29 @@ class UserController extends Controller
     public function home(){
         return "Such devastation... This was not my intention...";
     }
-
-    public function welcome(Request $request){
+    
+    public function welcome(Request $request)
+    {
         $search = $request->input('search');
+        $categoryId = $request->input('category_id');
 
-        $blog = Blog::when($search, function ($query, $search) {
-            return $query->where('title', 'like', "%{$search}%")
-                        ->orWhere('description', 'like', "%{$search}%");
-        })->latest()->paginate(3);
+        $query = Blog::query();
 
-        return view('welcome', compact('blog'));
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
+        $blog = $query->latest()->paginate(3);
+        $categories = Category::all();
+
+        return view('welcome', compact('blog', 'categories'));
     }
 
     public function show(Blog $blog){
